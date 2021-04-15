@@ -22,10 +22,10 @@ class AccountMove(models.Model):
     # to show/display fields/buttons, add constraints, etc...
     transmit_method_code = fields.Char(related="transmit_method_id.code", store=True)
     transmit_method_domain_sale = fields.Boolean(
-        compute="_compute_transmit_method_domain", default=True
+        compute="_compute_transmit_method_domain"
     )
     transmit_method_domain_purchase = fields.Boolean(
-        compute="_compute_transmit_method_domain", default=True
+        compute="_compute_transmit_method_domain"
     )
 
     @api.depends("move_type")
@@ -54,11 +54,11 @@ class AccountMove(models.Model):
         if self.partner_id and self.move_type:
             if self.move_type in ("out_invoice", "out_refund"):
                 self.transmit_method_id = (
-                    self.partner_id.customer_invoice_transmit_method_id.id or False
+                    self.partner_id.customer_invoice_transmit_method_id
                 )
             else:
                 self.transmit_method_id = (
-                    self.partner_id.supplier_invoice_transmit_method_id.id or False
+                    self.partner_id.supplier_invoice_transmit_method_id
                 )
         else:
             self.transmit_method_id = False
